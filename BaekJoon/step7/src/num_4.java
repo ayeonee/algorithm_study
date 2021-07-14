@@ -1,3 +1,5 @@
+//문자열 반복
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

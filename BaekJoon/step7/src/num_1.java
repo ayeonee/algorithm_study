@@ -1,3 +1,5 @@
+//아스키코드
+
 import java.util.Scanner;
 
 public class num_1 {
