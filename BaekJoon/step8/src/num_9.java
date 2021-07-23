@@ -1,4 +1,5 @@
 //Fly me to the Alpha Centauri
+//어려워씀 ㅠㅠ
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,6 +7,19 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class num_9 {
+    public static void calculate(int minus){
+        long sum=0;
+        long count =0;
+        while(minus > sum){
+            sum+=count*2;
+            count++;
+        }
+        count-=1;
+
+        if(count*(count+1)-minus<count) System.out.println(count*2);
+        else System.out.println(count*2-1);
+    }
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int T = Integer.parseInt(br.readLine());
@@ -15,22 +29,13 @@ public class num_9 {
             StringTokenizer st = new StringTokenizer(s);
             int x= Integer.parseInt(st.nextToken());
             int y= Integer.parseInt(st.nextToken());
-
-            int count =0;
-            int index=1;
-            int preIndex=0;
-            int btw = 2;
-            while(index<=y-x){
-                if(index-preIndex==btw){
-                    count++;
-                    preIndex=index;
-                    btw+=2;
-                }
-                index++;
+            int minus = y-x;
+            if(minus == 1) {
+                System.out.println("1");
             }
-
-            if(count*(count+1)-(y-x)<count) System.out.println(count*2);
-            else System.out.println(count*2-1);
+            else {
+                calculate(minus);
+            }
         }
     }
 }
