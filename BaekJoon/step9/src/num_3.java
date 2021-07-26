@@ -1,4 +1,4 @@
-//소인수분해
+//11653 소인수분해
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,8 +14,7 @@ public class num_3 {
                 N=N/i;
                 System.out.println(i);
             }
-            else
-                i++;
+            else i++;
         }
         br.close();
     }
