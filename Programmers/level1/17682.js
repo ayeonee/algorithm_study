@@ -13,10 +13,11 @@ function solution(dartResult) {
   let addNum = [];
   calculateNum.splice(0, 0, 0);
   calculateNum.forEach((v, i) => {
-    if (v === "#") addNum.splice(i - 1, 0, addNum[i - 1] * -1);
-    else if (v === "*")
-      addNum.splice(i - 2, 2, 2 * (addNum[i - 1] + addNum[i - 2]));
-    else addNum.push(v);
+    if (v === "#") addNum[addNum.length - 1] = addNum[addNum.length - 1] * -1;
+    else if (v === "*") {
+      addNum[addNum.length - 1] = addNum[addNum.length - 1] * 2;
+      addNum[addNum.length - 2] = addNum[addNum.length - 2] * 2;
+    } else addNum.push(v);
   });
-  return addNum;
+  return addNum.reduce((add, cul) => add + cul);
 }
