@@ -1,5 +1,4 @@
 // Summer/Winter Coding(~2018) > 배달
-// 이해필요
 
 function solution(N, road, K) {
   const dist = new Array(N + 1).fill(500000);
@@ -13,12 +12,9 @@ function solution(N, road, K) {
   dist[1] = 0;
 
   while (pq.length) {
-    console.log(pq);
     let { to } = pq.pop();
 
     adj[to].forEach((next) => {
-      console.log(next);
-      console.log(dist[next.to], dist[to]);
       if (dist[next.to] > dist[to] + next.time) {
         dist[next.to] = dist[to] + next.time;
         pq.push(next);
