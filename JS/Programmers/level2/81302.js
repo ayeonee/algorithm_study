@@ -36,3 +36,55 @@ function solution(places) {
 
   return ans;
 }
+
+// try 2 : success !!!
+function solution(places) {
+  const answer = [];
+
+  const newPlaces = places.map((v) => {
+    v.splice(0, 0, "XXXXX");
+    v.push("XXXXX");
+    return v.map((el) => `X${el}X`);
+  });
+
+  const checkP = (i, j, k) => {
+    if (
+      newPlaces[i][j - 1][k] === "P" ||
+      newPlaces[i][j + 1][k] === "P" ||
+      newPlaces[i][j][k - 1] === "P" ||
+      newPlaces[i][j][k + 1] === "P"
+    )
+      return true;
+    return false;
+  };
+
+  const checkO = (i, j, k) => {
+    let cnt = 0;
+    if (newPlaces[i][j - 1][k] === "P") cnt++;
+    if (newPlaces[i][j + 1][k] === "P") cnt++;
+    if (newPlaces[i][j][k - 1] === "P") cnt++;
+    if (newPlaces[i][j][k + 1] === "P") cnt++;
+    return cnt >= 2 ? true : false;
+  };
+
+  loop: for (let i = 0; i < 5; i++) {
+    for (let j = 1; j <= 5; j++) {
+      for (let k = 1; k <= 5; k++) {
+        if (newPlaces[i][j][k] === "P") {
+          if (checkP(i, j, k)) {
+            answer.push(0);
+            continue loop;
+          }
+        }
+        if (newPlaces[i][j][k] === "O") {
+          if (checkO(i, j, k)) {
+            answer.push(0);
+            continue loop;
+          }
+        }
+      }
+    }
+    answer.push(1);
+  }
+  return answer;
+}
