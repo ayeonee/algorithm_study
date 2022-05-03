@@ -29,3 +29,21 @@ function solution(sticker) {
   }
   return a > b ? a : b;
 }
+
+// try 2 : success
+function solution(sticker) {
+  const length = sticker.length;
+  if (sticker.length === 1) return sticker[0];
+  const select1 = sticker.slice(0, length - 1);
+  const select2 = sticker.slice(1, length);
+  const findMax = (select) => {
+    for (let i = 1; i < select.length; i++) {
+      select[i] =
+        i === 1
+          ? Math.max(select[i - 1], select[i])
+          : Math.max(select[i - 1], select[i] + select[i - 2]);
+    }
+    return select[select.length - 1];
+  };
+  return Math.max(findMax(select1), findMax(select2));
+}
