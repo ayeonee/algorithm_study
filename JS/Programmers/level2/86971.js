@@ -25,3 +25,83 @@ function solution(n, wires) {
     }
   });
 }
+
+// try 2 => success
+function solution(n, wires) {
+  if (n === 2) return 0;
+  if (n === 3) return 1;
+  let answer = 100;
+  const tree = {};
+  wires.forEach((wire) => {
+    const [from, to] = wire;
+    tree[from] ? tree[from].push(to) : (tree[from] = [to]);
+    tree[to] ? tree[to].push(from) : (tree[to] = [from]);
+  });
+  wires.forEach((wire) => {
+    const [from, to] = wire;
+    const fIdx = tree[from].indexOf(to);
+    const tIdx = tree[to].indexOf(from);
+
+    tree[from].splice(fIdx, 1);
+    tree[to].splice(tIdx, 1);
+
+    const visited = findTree(from, []);
+    const diff = Math.abs(n - visited.length * 2);
+    if (answer > diff) answer = diff;
+
+    tree[from].push(to);
+    tree[to].push(from);
+  });
+  function findTree(node, visited) {
+    visited.push(node);
+    tree[node].forEach((v) => {
+      if (visited.includes(v)) return;
+      visited.push(v);
+      if (tree[v].length === 1) return;
+      else {
+        tree[v].forEach((v2) => {
+          if (v2 !== node) findTree(v2, visited);
+        });
+      }
+    });
+    return visited;
+  }
+  return answer;
+}
+
+// try 3 => 질문하기에 있는 풀이, 시간 오래 걸림
+function solution(n, wires) {
+  if (n === 2) return 0;
+  if (n === 3) return 1;
+  let answer = 100;
+
+  for (let i = 0; i < wires.length; i++) {
+    const tree = {};
+    wires.forEach((wire, idx) => {
+      if (idx !== i) {
+        const [from, to] = wire;
+        tree[from] ? tree[from].push(to) : (tree[from] = [to]);
+        tree[to] ? tree[to].push(from) : (tree[to] = [from]);
+      }
+    });
+    const visited = findTree(tree, +Object.keys(tree)[0], []);
+    const diff = Math.abs(n - visited.length * 2);
+    if (answer > diff) answer = diff;
+  }
+
+  function findTree(tree, node, visited) {
+    visited.push(node);
+    tree[node].forEach((v) => {
+      if (visited.includes(v)) return;
+      visited.push(v);
+      if (tree[v].length === 1) return;
+      else {
+        tree[v].forEach((v2) => {
+          if (v2 !== node) findTree(tree, v2, visited);
+        });
+      }
+    });
+    return visited;
+  }
+  return answer;
+}
