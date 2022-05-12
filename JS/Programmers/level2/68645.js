@@ -1,52 +1,80 @@
 // 월간 코드 챌린지 시즌1 > 삼각 달팽이
 
-// ...ing
+// try1 : success
 function solution(n) {
-  let answer = [];
   let sum = 0;
   const triangle = new Array(n).fill(0).map((_, idx) => {
     sum += idx + 1;
     return new Array(idx + 1).fill(0);
   });
-
   let direction = 0,
-    d_l = 0,
-    d_r = 0,
-    r_l = n - 1,
-    r_r = 1,
-    u_l = n - 2,
-    u_r = n - 2;
+    down0 = 0,
+    down1 = 0,
+    right0 = 0,
+    right1 = 0,
+    up0 = 0,
+    up1 = 0;
   for (let i = 1; i <= sum; i++) {
-    // down
-    if (direction % 3 === 0) {
-      triangle[d_l][d_r] = i;
-      d_l++;
-      if (d_l > n || triangle[d_l][d_r] === 0) {
-        direction++;
-        d_r++;
-        i--;
+    // 아래로
+    if (direction === 0) {
+      triangle[down0][down1] = i;
+      down0++;
+      if (down0 === n || triangle[down0][down1] !== 0) {
+        direction = 1;
+        right0 = down0 - 1;
+        right1 = down1 + 1;
       }
     }
-    // right
-    else if (direction % 3 === 1) {
-      triangle[r_l][r_r] = i;
-      r_r++;
-      if (r_r > n || triangle[r_l][r_r] === 0) {
-        direction++;
-        r_l--;
-        i--;
+    // 오른쪽으로
+    else if (direction === 1) {
+      triangle[right0][right1] = i;
+      right1++;
+      if (
+        right1 === triangle[right0].length ||
+        triangle[right0][right1] !== 0
+      ) {
+        direction = 2;
+        up0 = right0 - 1;
+        up1 = right1 - 2;
       }
     }
-    // up
-    else if (direction % 3 === 2) {
-      triangle[u_l][u_r] = i;
-      u_l--;
-      if (u_l < 1 || triangle[u_l][u_r] === 0) {
-        direction++;
-        u_r--;
-        i--;
+    // 위로
+    else if (direction === 2) {
+      triangle[up0][up1] = i;
+      up0--;
+      up1--;
+      if (triangle[up0][up1] !== 0) {
+        direction = 0;
+        down0 = up0 + 2;
+        down1 = up1 + 1;
       }
     }
   }
-  return triangle;
+
+  return triangle.flat();
+}
+
+// best
+function solution(n) {
+  const triangle = new Array(n)
+    .fill(0)
+    .map((_, idx) => new Array(idx + 1).fill(0));
+  let x = -1,
+    y = 0,
+    num = 1;
+  for (let i = 0; i < n; i++) {
+    for (let j = i; j < n; j++) {
+      const division = i % 3;
+      if (division === 0) x++;
+      else if (division === 1) y++;
+      else {
+        x--;
+        y--;
+      }
+      triangle[x][y] = num;
+      num++;
+    }
+  }
+
+  return triangle.flat();
 }
