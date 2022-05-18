@@ -33,3 +33,24 @@ function solution(k, dungeons) {
   dungeons.forEach((dungeon) => goToDungen(dungeon, k, dungeons.slice(), 0));
   return answer;
 }
+
+//try 2
+function solution(k, dungeons) {
+  let answer = 0;
+  const length = dungeons.length;
+  const visited = new Array(length).fill(false);
+
+  const dfs = (k, cnt) => {
+    answer = Math.max(answer, cnt);
+    for (let i = 0; i < length; i++) {
+      const [min, used] = dungeons[i];
+      if (k >= min && !visited[i]) {
+        visited[i] = true;
+        dfs(k - used, cnt + 1);
+        visited[i] = false;
+      }
+    }
+  };
+  dfs(k, 0);
+  return answer;
+}
